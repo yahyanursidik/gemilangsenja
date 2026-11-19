@@ -1,13 +1,13 @@
 // Konten diambil dari https://tsl.my.id/program/gemilang-senja/
-const WA_NUMBER = '62895377710900';
+const WA_NUMBER = '6285173386003';
 const wa = (text: string) => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
 
 export const contact = {
   waDaftar: wa('Assalamu’alaikum, saya ingin mendaftar program TSL Gemilang Senja.'),
   waTanya: wa('Assalamu’alaikum, saya ingin bertanya tentang program TSL Gemilang Senja.'),
-  phoneDisplay: '0895 3777 10900',
-  phoneHref: 'tel:+62895377710900',
-  email: 'salam@tarbiyahsunnahlearning.or.id',
+  phoneDisplay: '0851-7338-6003',
+  phoneHref: 'tel:+6285173386003',
+  email: 'salam@tsl.my.id',
 };
 
 export const program = {
