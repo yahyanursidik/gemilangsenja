@@ -1,0 +1,344 @@
+---
+import Icon from './Icon.astro';
+
+const sizes = [
+  { value: '1', label: 'Normal', sample: '1' },
+  { value: '2', label: 'Besar', sample: '1.15' },
+  { value: '3', label: 'Lebih besar', sample: '1.3' },
+  { value: '4', label: 'Sangat besar', sample: '1.5' },
+];
+
+const colors = [
+  {
+    value: 'standar',
+    label: 'Standar',
+    hint: 'Warna asli program',
+    swatch: ['#ff8556', '#e8750f', '#f4b446', '#1f2140'],
+  },
+  {
+    value: 'kontras',
+    label: 'Kontras tinggi',
+    hint: 'Hitam, putih, dan kuning',
+    swatch: ['#ffe94d', '#000000', '#8c8c8c', '#ffffff'],
+  },
+  {
+    value: 'merah-hijau',
+    label: 'Sulit membedakan merah–hijau',
+    hint: 'Protanopia dan deuteranopia',
+    swatch: ['#7cc4f0', '#c25400', '#e69f00', '#0f1d33'],
+  },
+  {
+    value: 'biru-kuning',
+    label: 'Sulit membedakan biru–kuning',
+    hint: 'Tritanopia',
+    swatch: ['#8fd6dc', '#a3122b', '#eda1a6', '#1c1416'],
+  },
+  {
+    value: 'abu',
+    label: 'Abu-abu',
+    hint: 'Tanpa warna sama sekali',
+    swatch: ['#c4c4c4', '#2b2b2b', '#9e9e9e', '#ffffff'],
+  },
+];
+---
+
+<section id="tampilan" class="settings" aria-labelledby="tampilan-judul" hidden>
+  <div class="wrap settings__inner">
+    <div class="settings__head">
+      <h2 id="tampilan-judul">Atur tampilan</h2>
+      <p>Pilihan Anda tersimpan di perangkat ini.</p>
+    </div>
+
+    <form class="settings__form" data-settings-form>
+      <fieldset class="group">
+        <legend>Ukuran huruf</legend>
+        <div class="options options--size">
+          {
+            sizes.map((s) => (
+              <label class="option">
+                <input type="radio" name="size" value={s.value} />
+                <span class="option__sample" style={`font-size: calc(1.1rem * ${s.sample} / var(--scale))`} aria-hidden="true">
+                  Aa
+                </span>
+                <span class="option__label">{s.label}</span>
+              </label>
+            ))
+          }
+        </div>
+      </fieldset>
+
+      <fieldset class="group">
+        <legend>Warna</legend>
+        <div class="options options--color">
+          {
+            colors.map((c) => (
+              <label class="option option--color">
+                <input type="radio" name="color" value={c.value} />
+                <span class="swatch" aria-hidden="true">
+                  {c.swatch.map((hex) => (
+                    <span style={`background:${hex}`} />
+                  ))}
+                </span>
+                <span class="option__text">
+                  <span class="option__label">{c.label}</span>
+                  <span class="option__hint">{c.hint}</span>
+                </span>
+              </label>
+            ))
+          }
+        </div>
+      </fieldset>
+
+      <fieldset class="group">
+        <legend>Jarak baris</legend>
+        <label class="option option--toggle">
+          <input type="checkbox" name="spacing" value="lega" />
+          <span class="option__text">
+            <span class="option__label">Lebih lega</span>
+            <span class="option__hint">Jarak antarbaris dan antarkata dilebarkan</span>
+          </span>
+        </label>
+      </fieldset>
+
+      <div class="settings__actions">
+        <button type="button" class="btn btn--ghost" data-settings-reset>Kembalikan ke awal</button>
+        <button type="button" class="btn" data-settings-close>
+          <Icon name="check" />
+          Selesai
+        </button>
+      </div>
+    </form>
+    <p class="visually-hidden" aria-live="polite" data-settings-status></p>
+  </div>
+</section>
+
+<style>
+  .settings {
+    border-top: var(--border-w) solid var(--line);
+    background: var(--paper);
+    max-height: calc(100dvh - 5rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    box-shadow: 0 1.5rem 2rem -1.5rem rgb(31 33 64 / 0.35);
+  }
+  .settings[hidden] { display: none; }
+  .settings__inner {
+    padding-block: 1.5rem 2rem;
+  }
+  .settings__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.25rem 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .settings__head h2 { font-size: 1.6rem; }
+  .settings__head p { color: var(--ink-soft); }
+
+  .settings__form {
+    display: grid;
+    gap: 1.5rem;
+  }
+  @media (min-width: 60em) {
+    .settings__form {
+      grid-template-columns: 1fr 1.4fr;
+      column-gap: 2.5rem;
+    }
+    .group:nth-of-type(2) { grid-row: span 2; }
+  }
+
+  .group {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+  }
+  legend {
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 0;
+    margin-bottom: 0.6rem;
+  }
+
+  .options {
+    display: grid;
+    gap: 0.6rem;
+  }
+  .options--size {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .option {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    min-height: 3.5rem;
+    padding: 0.7rem 0.9rem;
+    border: var(--border-w) solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--paper);
+    cursor: pointer;
+    line-height: 1.3;
+  }
+  .option:hover { border-color: var(--ink); }
+  .option:has(input:checked) {
+    border-color: var(--ink);
+    box-shadow: inset 0 0 0 1px var(--ink);
+    background: var(--paper-tint);
+  }
+  .option:has(input:focus-visible) {
+    outline: 0.25rem solid var(--focus);
+    outline-offset: 0.2rem;
+    box-shadow: 0 0 0 0.5rem var(--focus-halo);
+  }
+  .option input {
+    flex: none;
+    width: 1.35rem;
+    height: 1.35rem;
+    margin: 0;
+    accent-color: var(--btn);
+  }
+  .option input:focus-visible { outline: none; box-shadow: none; }
+
+  .options--size .option {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+  .option__sample {
+    font-family: var(--font-display);
+    font-weight: 650;
+    line-height: 1;
+  }
+  .option__label { font-weight: 700; }
+  .option__text { display: grid; gap: 0.1rem; }
+  .option__hint { color: var(--ink-soft); font-size: 0.9rem; }
+
+  .swatch {
+    flex: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1rem);
+    grid-template-rows: repeat(2, 1rem);
+    border-radius: 0.35rem;
+    overflow: hidden;
+    outline: 1px solid var(--ink);
+  }
+
+  .settings__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+  }
+  @media (min-width: 60em) {
+    .settings__actions { grid-column: 1; }
+  }
+</style>
+
+<script>
+  type Prefs = { size?: string; color?: string; spacing?: string };
+  const KEY = 'gs-tampilan';
+  const root = document.documentElement;
+  const panel = document.getElementById('tampilan') as HTMLElement | null;
+  const form = document.querySelector<HTMLFormElement>('[data-settings-form]');
+  const status = document.querySelector<HTMLElement>('[data-settings-status]');
+  const toggles = document.querySelectorAll<HTMLButtonElement>('[aria-controls="tampilan"]');
+
+  const defaults: Required<Prefs> = { size: '1', color: 'standar', spacing: '' };
+
+  function read(): Prefs {
+    try {
+      return JSON.parse(localStorage.getItem(KEY) || '{}');
+    } catch {
+      return {};
+    }
+  }
+  function write(p: Prefs) {
+    try {
+      localStorage.setItem(KEY, JSON.stringify(p));
+    } catch {
+      /* penyimpanan tidak tersedia: pilihan tetap berlaku sampai halaman ditutup */
+    }
+  }
+
+  function current(): Required<Prefs> {
+    return {
+      size: root.dataset.size || defaults.size,
+      color: root.dataset.color || defaults.color,
+      spacing: root.dataset.spacing || '',
+    };
+  }
+
+  function apply(p: Required<Prefs>) {
+    root.dataset.size = p.size;
+    root.dataset.color = p.color;
+    if (p.spacing) root.dataset.spacing = p.spacing;
+    else delete root.dataset.spacing;
+  }
+
+  function syncForm() {
+    if (!form) return;
+    const p = current();
+    form.querySelectorAll<HTMLInputElement>('input[name="size"]').forEach((i) => (i.checked = i.value === p.size));
+    form.querySelectorAll<HTMLInputElement>('input[name="color"]').forEach((i) => (i.checked = i.value === p.color));
+    const sp = form.querySelector<HTMLInputElement>('input[name="spacing"]');
+    if (sp) sp.checked = p.spacing === 'lega';
+  }
+
+  function announce(input: HTMLInputElement) {
+    if (!status) return;
+    const label = input.closest('label')?.querySelector('.option__label')?.textContent?.trim() ?? '';
+    const group = input.closest('fieldset')?.querySelector('legend')?.textContent?.trim() ?? '';
+    const state = input.type === 'checkbox' ? (input.checked ? 'aktif' : 'nonaktif') : '';
+    status.textContent = `${group}: ${label} ${state}`.trim();
+  }
+
+  form?.addEventListener('change', (e) => {
+    const input = e.target as HTMLInputElement;
+    const p = current();
+    if (input.name === 'size') p.size = input.value;
+    if (input.name === 'color') p.color = input.value;
+    if (input.name === 'spacing') p.spacing = input.checked ? 'lega' : '';
+    apply(p);
+    write(p);
+    announce(input);
+  });
+
+  document.querySelector('[data-settings-reset]')?.addEventListener('click', () => {
+    apply(defaults);
+    try {
+      localStorage.removeItem(KEY);
+    } catch {}
+    syncForm();
+    if (status) status.textContent = 'Tampilan dikembalikan ke pengaturan awal';
+  });
+
+  function setOpen(open: boolean, returnFocus = true) {
+    if (!panel) return;
+    panel.hidden = !open;
+    toggles.forEach((t) => t.setAttribute('aria-expanded', String(open)));
+    if (open) {
+      syncForm();
+      panel.querySelector<HTMLInputElement>('input:checked')?.focus();
+    } else if (returnFocus) {
+      toggles[0]?.focus();
+    }
+  }
+
+  toggles.forEach((t) =>
+    t.addEventListener('click', () => {
+      document.dispatchEvent(new CustomEvent('gs:close-menu'));
+      setOpen(panel?.hidden ?? true);
+    }),
+  );
+  document.querySelector('[data-settings-close]')?.addEventListener('click', () => setOpen(false));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && panel && !panel.hidden) setOpen(false);
+  });
+  document.addEventListener('gs:close-settings', () => setOpen(false, false));
+
+  // Jika penyimpanan berisi pilihan lama, pastikan formulir mencerminkannya.
+  if (Object.keys(read()).length) syncForm();
+</script>

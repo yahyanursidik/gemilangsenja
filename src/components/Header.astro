@@ -1,0 +1,213 @@
+---
+import SunsetMark from './SunsetMark.astro';
+import Icon from './Icon.astro';
+import DisplaySettings from './DisplaySettings.astro';
+import { nav } from '../data/program';
+---
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="#beranda" aria-label="TSL Gemilang Senja, kembali ke atas">
+      <SunsetMark id="mark-header" size="2.6em" />
+      <span class="brand__text" aria-hidden="true">
+        <span class="brand__name">Gemilang Senja</span>
+        <span class="brand__org">Tarbiyah Sunnah Learning</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Navigasi halaman">
+      <ul>
+        {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div class="tools">
+      <button type="button" class="tool" aria-expanded="false" aria-controls="tampilan">
+        <Icon name="type" size="1.4em" />
+        <span>Tampilan</span>
+      </button>
+      <a class="tool tool--cta" href="#daftar">Daftar</a>
+      <button type="button" class="tool tool--menu" aria-expanded="false" aria-controls="menu-ponsel">
+        <Icon name="menu" size="1.4em" />
+        <span>Menu</span>
+      </button>
+    </div>
+  </div>
+
+  <DisplaySettings />
+
+  <nav id="menu-ponsel" class="menu" aria-label="Navigasi halaman" hidden>
+    <ul class="wrap">
+      {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      <li><a href="#daftar">Pendaftaran</a></li>
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--paper);
+    border-bottom: var(--border-w) solid var(--line);
+  }
+  /* Kontrol header dibatasi ukurannya agar selalu muat satu baris,
+     berapa pun ukuran huruf yang dipilih. */
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    min-height: 4.5em;
+    padding-block: 0.5em;
+    font-size: min(1rem, 22px);
+    flex-wrap: wrap;
+    container-type: inline-size;
+    container-name: bar;
+  }
+  /* Di ponsel, kontrol header tetap 18px agar satu baris; isi halaman tetap ikut membesar. */
+  @media (max-width: 30em) {
+    .bar { font-size: min(1rem, 18px); gap: 0.6em; padding-inline: 16px; }
+  }
+
+  .brand {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    text-decoration: none;
+    margin-right: auto;
+    min-width: 0;
+  }
+  .brand__text { display: grid; line-height: 1.15; }
+  .brand__name {
+    font-family: var(--font-display);
+    font-weight: 650;
+    font-size: 1.15rem;
+  }
+  .brand__org { font-size: 0.8rem; color: var(--ink-soft); }
+  /* Teks merek disembunyikan bila ruang header (diukur dalam ukuran
+     huruf header itu sendiri) tidak cukup; lambang tetap tampil. */
+  .brand__name { white-space: nowrap; }
+  @container bar (max-width: 31em) {
+    .brand__text { display: none; }
+  }
+  @container bar (max-width: 22em) {
+    .tool { padding-inline: 0.6em; gap: 0.3em; }
+    .brand :global(.mark) { width: 2.2em; height: 2.2em; }
+  }
+
+  .nav { display: none; }
+  .nav ul {
+    display: flex;
+    gap: 0.25rem;
+    list-style: none;
+    padding: 0;
+  }
+  .nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 3rem;
+    padding-inline: 0.7rem;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+  }
+  .nav a:hover { text-decoration: underline; text-decoration-color: var(--link-line); }
+
+  .tools {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .tool {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 2.75em;
+    padding: 0.4em 0.9em;
+    border: var(--border-w) solid var(--ink);
+    border-radius: 999px;
+    background: var(--paper);
+    color: var(--ink);
+    font: inherit;
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .tool[aria-expanded='true'] {
+    background: var(--btn);
+    color: var(--on-btn);
+    border-color: var(--btn);
+  }
+  .tool--cta {
+    display: none;
+    background: var(--btn);
+    border-color: var(--btn);
+    color: var(--on-btn);
+  }
+
+  /* Navigasi lengkap hanya ditampilkan bila benar-benar muat:
+     makin besar huruf, makin lebar layar yang dibutuhkan. */
+  @media (min-width: 75em) {
+    :global(html[data-size='1']) .nav { display: block; }
+    :global(html[data-size='1']) .tool--menu { display: none; }
+    :global(html[data-size='1']) .tool--cta { display: inline-flex; }
+  }
+  @media (min-width: 87em) {
+    :global(html[data-size='2']) .nav { display: block; }
+    :global(html[data-size='2']) .tool--menu { display: none; }
+    :global(html[data-size='2']) .tool--cta { display: inline-flex; }
+  }
+
+  .menu {
+    border-top: var(--border-w) solid var(--line);
+    max-height: calc(100dvh - 5rem);
+    overflow-y: auto;
+  }
+  .menu[hidden] { display: none; }
+  .menu ul {
+    list-style: none;
+    padding-block: 0.5rem 1rem;
+  }
+  .menu a {
+    display: flex;
+    align-items: center;
+    min-height: 3.5rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+  }
+  .menu li:last-child a { border-bottom: 0; }
+</style>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('[aria-controls="menu-ponsel"]');
+  const menu = document.getElementById('menu-ponsel');
+
+  function setMenu(open: boolean) {
+    if (!btn || !menu) return;
+    menu.hidden = !open;
+    btn.setAttribute('aria-expanded', String(open));
+    const label = btn.querySelector('span');
+    if (label) label.textContent = open ? 'Tutup' : 'Menu';
+  }
+
+  btn?.addEventListener('click', () => {
+    document.dispatchEvent(new CustomEvent('gs:close-settings'));
+    setMenu(menu?.hidden ?? true);
+  });
+  menu?.addEventListener('click', (e) => {
+    if ((e.target as HTMLElement).closest('a')) setMenu(false);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menu && !menu.hidden) {
+      setMenu(false);
+      btn?.focus();
+    }
+  });
+  document.addEventListener('gs:close-menu', () => setMenu(false));
+</script>

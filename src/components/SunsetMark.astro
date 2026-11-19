@@ -1,0 +1,104 @@
+---
+/**
+ * Lambang Gemilang Senja (matahari terbenam di balik bukit pasir),
+ * digambar ulang sebagai SVG agar tajam di segala ukuran dan
+ * warnanya ikut berubah sesuai mode warna yang dipilih pengguna.
+ */
+interface Props {
+  id: string;
+  size?: string;
+  animate?: boolean;
+  title?: string;
+}
+const { id, size = '3rem', animate = false, title } = Astro.props;
+const rays = [
+  [22.8, 58.7, 63.6, 72.1],
+  [45.1, 31.7, 73.4, 55.7],
+  [73.4, 16.6, 87.9, 44.5],
+  [103.8, 12.8, 105.8, 39.6],
+  [131.5, 18.5, 124, 41.1],
+  [156.2, 32.8, 140.4, 50.6],
+  [174.5, 54.2, 152.3, 65.3],
+  [185.7, 81.9, 157, 83.4],
+];
+---
+
+<svg
+  class:list={['mark', { 'mark--animate': animate }]}
+  viewBox="0 0 200 200"
+  width={size}
+  height={size}
+  role={title ? 'img' : undefined}
+  aria-label={title}
+  aria-hidden={title ? undefined : 'true'}
+  focusable="false"
+>
+  <defs>
+    <clipPath id={`${id}-clip`}>
+      <circle cx="100" cy="100" r="88"></circle>
+    </clipPath>
+  </defs>
+  <circle class="disc" cx="100" cy="100" r="100"></circle>
+  <g clip-path={`url(#${id}-clip)`}>
+    <g class="rays">
+      {rays.map(([x1, y1, x2, y2]) => <line x1={x1} y1={y1} x2={x2} y2={y2} />)}
+    </g>
+    <circle class="sun" cx="109" cy="88" r="48"></circle>
+    <path
+      class="dune dune-1"
+      d="M2 87 C22 79 44 79 61 85 C76 91 86 102 106 103.6 C126 105 141 99.5 160 99.6 C176 99.7 186 98.5 198 96 L198 200 L2 200 Z"
+    ></path>
+    <path
+      class="dune dune-2"
+      d="M2 105 C28 109 50 119 82 119.6 C114 120.2 150 123.2 198 119 L198 200 L2 200 Z"
+    ></path>
+    <path
+      class="dune dune-3"
+      d="M2 158 C40 155 70 149 106 143 C126 139.6 146 138.4 160 141.5 C170 143.6 180 147 198 153 L198 200 L2 200 Z"
+    ></path>
+  </g>
+</svg>
+
+<style>
+  .mark {
+    display: block;
+    flex: none;
+    overflow: visible;
+  }
+  .disc {
+    fill: var(--mark-disc, var(--paper));
+  }
+  .rays line {
+    stroke: var(--sun);
+    stroke-width: 1.7;
+    stroke-linecap: butt;
+  }
+  .sun {
+    fill: var(--sun);
+  }
+  .dune {
+    stroke: var(--mark-disc, var(--paper));
+    stroke-width: 1.3;
+  }
+  .dune-1 { fill: var(--dune-1); }
+  .dune-2 { fill: var(--dune-2); }
+  .dune-3 { fill: var(--dune-3); }
+
+  /* Satu momen gerak saja: matahari perlahan turun ke cakrawala saat halaman dibuka. */
+  @media (prefers-reduced-motion: no-preference) {
+    .mark--animate .sun {
+      animation: settle 2.6s cubic-bezier(0.22, 0.7, 0.2, 1) both;
+    }
+    .mark--animate .rays {
+      animation: glow 2.6s ease-out both;
+    }
+  }
+  @keyframes settle {
+    from { transform: translateY(-22px); }
+    to { transform: translateY(0); }
+  }
+  @keyframes glow {
+    0%, 35% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+</style>

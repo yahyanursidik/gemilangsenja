@@ -1,0 +1,715 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import SunsetMark from '../components/SunsetMark.astro';
+import Icon from '../components/Icon.astro';
+import { program, contact, siteLinks } from '../data/program';
+
+const year = new Date().getFullYear();
+---
+
+<Base
+  title="TSL Gemilang Senja — Pembinaan Islam untuk usia 45+ | Tarbiyah Sunnah Learning"
+  description={program.lead}
+>
+  <Header />
+
+  <main id="konten">
+    <!-- ============ Pembuka ============ -->
+    <section id="beranda" class="hero" aria-labelledby="judul-utama">
+      <div class="wrap hero__grid">
+        <div class="hero__text">
+          <p class="hero__age">
+            <span class="age-pill">Usia 45+</span>
+            Program pembinaan Tarbiyah Sunnah Learning
+          </p>
+          <h1 id="judul-utama">TSL Gemilang Senja</h1>
+          <p class="hero__lead">{program.lead}</p>
+          <div class="hero__actions">
+            <a class="btn" href={contact.waDaftar} target="_blank" rel="noopener">
+              <Icon name="whatsapp" size="1.4em" />
+              Daftar via WhatsApp
+              <span class="visually-hidden">(membuka WhatsApp di tab baru)</span>
+            </a>
+            <a class="btn btn--ghost" href="#jalur">Lihat 3 jalur program</a>
+          </div>
+        </div>
+
+        <div class="hero__art">
+          <SunsetMark id="mark-hero" size="100%" animate title="Lambang Gemilang Senja: matahari terbenam di balik bukit pasir" />
+        </div>
+
+        <dl class="facts">
+          {
+            program.facts.map((f) => (
+              <div class="fact">
+                <dt>{f.label}</dt>
+                <dd>{f.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+
+      <svg class="horizon" viewBox="0 0 1440 140" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <path class="h1" d="M0 40 C180 18 330 22 470 44 C640 72 760 82 940 70 C1110 58 1260 46 1440 52 L1440 140 L0 140 Z" />
+        <path class="h2" d="M0 72 C220 80 420 98 640 100 C900 102 1160 110 1440 96 L1440 140 L0 140 Z" />
+        <path class="h3" d="M0 112 C300 112 560 104 820 98 C1060 92 1260 100 1440 114 L1440 140 L0 140 Z" />
+        <path class="h4" d="M0 134 L1440 134 L1440 140 L0 140 Z" />
+      </svg>
+    </section>
+
+    <!-- ============ Ringkasan ============ -->
+    <section id="ringkasan" class="section" aria-labelledby="judul-ringkasan">
+      <div class="wrap split">
+        <div class="prose">
+          <h2 id="judul-ringkasan">Ringkasan program</h2>
+          {program.summary.map((p) => <p>{p}</p>)}
+        </div>
+        <div class="audience">
+          <h3>Untuk siapa program ini?</h3>
+          <ul class="sun-list">
+            {program.audience.map((a) => <li>{a}</li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Tujuan ============ -->
+    <section id="tujuan" class="section section--tint" aria-labelledby="judul-tujuan">
+      <div class="wrap">
+        <h2 id="judul-tujuan">Tujuan belajar</h2>
+        <p class="section__intro">Empat hal yang ingin dicapai bersama selama pembinaan.</p>
+        <ul class="goals">
+          {program.goals.map((g) => <li>{g}</li>)}
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ Jalur ============ -->
+    <section id="jalur" class="section" aria-labelledby="judul-jalur">
+      <div class="wrap">
+        <h2 id="judul-jalur">Tiga jalur program</h2>
+        <p class="section__intro">Pilih yang paling sesuai dengan waktu dan kebiasaan Anda. Dua jalur bisa diikuti dari rumah.</p>
+
+        <div class="tracks">
+          {
+            program.tracks.map((t) => (
+              <article class="track" aria-labelledby={`jalur-${t.id}`}>
+                <h3 id={`jalur-${t.id}`}>{t.name}</h3>
+                <ul class="tags" aria-label="Format">
+                  {t.tags.map((tag) => (
+                    <li>
+                      <Icon name={tag.icon} />
+                      {tag.text}
+                    </li>
+                  ))}
+                </ul>
+                <p class="track__summary">{t.summary}</p>
+                <dl class="track__details">
+                  {t.details.map((d) => (
+                    <div>
+                      <dt>{d.label}</dt>
+                      <dd>{d.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Cara belajar ============ -->
+    <section id="cara-belajar" class="section section--tint" aria-labelledby="judul-cara">
+      <div class="wrap">
+        <h2 id="judul-cara">Cara belajar</h2>
+        <ul class="methods">
+          {
+            program.methods.map((m) => (
+              <li class="method">
+                <span class="method__icon">
+                  <Icon name={m.icon} size="1.8rem" />
+                </span>
+                <div>
+                  <h3>{m.title}</h3>
+                  <p>{m.text}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ Materi ============ -->
+    <section id="materi" class="section" aria-labelledby="judul-materi">
+      <div class="wrap">
+        <h2 id="judul-materi">Materi pembelajaran</h2>
+        <p class="section__intro">Ilmu agama, Al-Qur’an, dan kesehatan diajarkan berdampingan.</p>
+        <ul class="materials">
+          {
+            program.materials.map((m) => (
+              <li>
+                <h3>{m.title}</h3>
+                <p>{m.text}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ Tanya jawab ============ -->
+    <section id="pertanyaan" class="section section--tint" aria-labelledby="judul-faq">
+      <div class="wrap narrow">
+        <h2 id="judul-faq">Pertanyaan yang sering diajukan</h2>
+        <div class="faq">
+          {
+            program.faq.map((f, i) => (
+              <details name="faq" open={i === 0}>
+                <summary>
+                  <span>{f.q}</span>
+                  <span class="faq__sign" aria-hidden="true">
+                    <Icon name="plus" size="1.3rem" />
+                  </span>
+                </summary>
+                <p>{f.a}</p>
+              </details>
+            ))
+          }
+        </div>
+        <p class="faq__more">
+          Ada pertanyaan lain?
+          <a href={contact.waTanya} target="_blank" rel="noopener">Tanyakan langsung ke admin lewat WhatsApp<span class="visually-hidden"> (tab baru)</span></a>.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ Pendaftaran ============ -->
+    <section id="daftar" class="register" aria-labelledby="judul-daftar">
+      <div class="register__sun" aria-hidden="true"></div>
+      <div class="wrap register__grid">
+        <div>
+          <h2 id="judul-daftar">Tertarik dengan TSL Gemilang Senja?</h2>
+          <p class="register__lead">
+            Pendaftaran dilakukan melalui admin. Kirim pesan WhatsApp, dan admin akan membantu memilih jalur yang sesuai.
+          </p>
+          <div class="register__actions">
+            <a class="btn btn--on-night" href={contact.waDaftar} target="_blank" rel="noopener">
+              <Icon name="whatsapp" size="1.4em" />
+              Daftar via WhatsApp
+              <span class="visually-hidden">(membuka WhatsApp di tab baru)</span>
+            </a>
+            <a class="btn btn--ghost-night" href={contact.waTanya} target="_blank" rel="noopener">
+              <Icon name="chat" size="1.3em" />
+              Konsultasi dengan admin
+              <span class="visually-hidden">(membuka WhatsApp di tab baru)</span>
+            </a>
+            <button type="button" class="btn btn--ghost-night" data-share>
+              <Icon name="share" size="1.3em" />
+              Bagikan ke keluarga
+            </button>
+          </div>
+          <p class="register__status" aria-live="polite" data-share-status></p>
+        </div>
+
+        <address class="contact">
+          <h3>Hubungi admin</h3>
+          <ul>
+            <li>
+              <Icon name="phone" size="1.5rem" />
+              <span>
+                <span class="contact__label">Telepon dan WhatsApp</span>
+                <a href={contact.phoneHref}>{contact.phoneDisplay}</a>
+              </span>
+            </li>
+            <li>
+              <Icon name="mail" size="1.5rem" />
+              <span>
+                <span class="contact__label">Email</span>
+                <a href={`mailto:${contact.email}`}>{contact.email}</a>
+              </span>
+            </li>
+          </ul>
+        </address>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__grid">
+      <div class="footer__brand">
+        <img src="/images/logo-gemilang-senja.jpg" alt="Logo TSL Gemilang Senja" width="96" height="96" loading="lazy" decoding="async" />
+        <p>
+          <strong>TSL Gemilang Senja</strong><br />
+          Program dari Tarbiyah Sunnah Learning
+        </p>
+      </div>
+      <nav aria-label="Tautan Tarbiyah Sunnah Learning">
+        <ul>
+          {siteLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+        </ul>
+      </nav>
+      <p class="footer__copy">© {year} Tarbiyah Sunnah Learning</p>
+    </div>
+  </footer>
+
+  <div class="mobile-cta">
+    <a class="btn" href={contact.waDaftar} target="_blank" rel="noopener">
+      <Icon name="whatsapp" size="1.4em" />
+      Daftar via WhatsApp
+      <span class="visually-hidden">(membuka WhatsApp di tab baru)</span>
+    </a>
+  </div>
+</Base>
+
+<script>
+  const shareBtn = document.querySelector<HTMLButtonElement>('[data-share]');
+  const shareStatus = document.querySelector<HTMLElement>('[data-share-status]');
+  shareBtn?.addEventListener('click', async () => {
+    const url = window.location.href.split('#')[0];
+    const text =
+      'Assalamu’alaikum. Ada program pembinaan Islam untuk usia 45 tahun ke atas dari Tarbiyah Sunnah Learning: TSL Gemilang Senja.';
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: 'TSL Gemilang Senja', text, url });
+        return;
+      } catch (err) {
+        if ((err as DOMException).name === 'AbortError') return;
+      }
+    }
+    window.open(`https://wa.me/?text=${encodeURIComponent(`${text}\n${url}`)}`, '_blank', 'noopener');
+    if (shareStatus) shareStatus.textContent = 'WhatsApp dibuka di tab baru. Pilih keluarga yang ingin dikirimi.';
+  });
+</script>
+
+<style>
+  /* ---------- Pembuka ---------- */
+  .hero {
+    background: var(--sky);
+    color: var(--on-sky);
+    --btn: var(--on-sky);
+    --link-line: var(--on-sky);
+    --mark-disc: var(--paper);
+  }
+  :global(html[data-color='kontras']) .hero { --on-btn: #ffffff; }
+
+  .hero__grid {
+    display: grid;
+    grid-template-areas: 'art' 'text' 'facts';
+    gap: 1.5rem;
+    padding-block: 1.5rem 0;
+  }
+  .hero__text { grid-area: text; max-width: 38rem; }
+  .hero__art {
+    grid-area: art;
+    width: min(8.5rem, 34vw);
+  }
+  .facts { grid-area: facts; }
+
+  @media (min-width: 56em) {
+    .hero__grid {
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+      grid-template-areas: 'text art' 'facts facts';
+      align-items: center;
+      column-gap: 3rem;
+      padding-block: 4rem 0;
+    }
+    .hero__art {
+      width: min(100%, 28rem);
+      justify-self: end;
+    }
+  }
+
+  .hero__age {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .age-pill {
+    display: inline-block;
+    padding: 0.2rem 0.75rem;
+    border: var(--border-w) solid currentColor;
+    border-radius: 999px;
+    font-weight: 700;
+  }
+  .hero h1 {
+    font-size: clamp(2.2rem, 1.2rem + 4.2vw, 4.4rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+  }
+  .hero__lead {
+    margin-top: 1.25rem;
+    font-size: 1.2rem;
+    line-height: 1.55;
+    max-width: 34em;
+  }
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 2rem;
+  }
+
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    gap: 0;
+    margin-top: 0.5rem;
+    border-top: var(--border-w) solid var(--on-sky);
+  }
+  .fact {
+    padding: 1rem 1.25rem 1rem 0;
+  }
+  .fact dt { font-size: 0.95rem; font-weight: 600; }
+  .fact dd {
+    margin: 0.15rem 0 0;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 650;
+    line-height: 1.25;
+  }
+
+  .horizon {
+    display: block;
+    width: 100%;
+    height: clamp(4rem, 9vw, 8rem);
+    margin-top: 1rem;
+  }
+  .horizon path {
+    stroke: var(--paper);
+    stroke-width: 3;
+    vector-effect: non-scaling-stroke;
+  }
+  .horizon .h1 { fill: var(--dune-1); }
+  .horizon .h2 { fill: var(--dune-2); }
+  .horizon .h3 { fill: var(--dune-3); }
+  .horizon .h4 { fill: var(--paper); stroke: none; }
+
+  /* ---------- Bagian umum ---------- */
+  .section { padding-block: clamp(3.5rem, 7vw, 6rem); }
+  .section--tint { background: var(--paper-tint); }
+  .section h2 {
+    font-size: clamp(1.65rem, 1.2rem + 2vw, 2.7rem);
+    max-width: 22em;
+  }
+  .section__intro {
+    margin-top: 0.75rem;
+    font-size: 1.1rem;
+    color: var(--ink-soft);
+    max-width: var(--measure);
+  }
+  .narrow > * { max-width: 52rem; }
+
+  .prose { max-width: var(--measure); }
+  .prose h2 { margin-bottom: 1.25rem; }
+  .prose p { font-size: 1.1rem; }
+
+  .split {
+    display: grid;
+    gap: 2.5rem;
+  }
+  @media (min-width: 60em) {
+    .split {
+      grid-template-columns: 1.4fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+  }
+  .audience {
+    border-left: 0.35rem solid var(--rule);
+    padding-left: 1.5rem;
+  }
+  .audience h3 { font-size: 1.45rem; margin-bottom: 1rem; }
+
+  /* Butir daftar bergaya sinar matahari kecil */
+  .sun-list, .goals {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+  }
+  .sun-list li, .goals li {
+    position: relative;
+    padding-left: 2.1rem;
+  }
+  .sun-list li::before, .goals li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: calc(var(--leading) * 0.5em - 0.55rem);
+    width: 1.1rem;
+    height: 1.1rem;
+    border-radius: 50%;
+    background: var(--sun);
+    box-shadow: 0 0 0 0.25rem var(--dune-3);
+  }
+
+  .goals {
+    margin-top: 2rem;
+    gap: 1.25rem 3rem;
+    font-size: 1.15rem;
+    max-width: 66rem;
+  }
+  @media (min-width: 52em) {
+    .goals { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ---------- Jalur ---------- */
+  .tracks {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 2.25rem;
+  }
+  .tracks { grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
+  .track {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    padding: 1.5rem 1.5rem 1.75rem;
+    border: var(--border-w) solid var(--line);
+    border-top: 0.5rem solid var(--dune-1);
+    border-radius: var(--radius-sm);
+    background: var(--paper);
+  }
+  .track:first-child {
+    border-top-color: var(--sun);
+    background: var(--paper-tint);
+  }
+  .track h3 { font-size: 1.8rem; }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+  }
+  .tags li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.65rem;
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+  .track__summary { color: var(--ink-soft); }
+  .track__details {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+  }
+  .track__details dt { font-size: 0.95rem; color: var(--ink-soft); font-weight: 600; }
+  .track__details dd {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.1rem;
+    line-height: 1.35;
+  }
+
+  /* ---------- Cara belajar ---------- */
+  .methods {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1.75rem 2.5rem;
+    margin-top: 2rem;
+  }
+  @media (min-width: 60em) {
+    .methods { grid-template-columns: repeat(3, 1fr); }
+  }
+  .method {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .method__icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 3.4rem;
+    height: 3.4rem;
+    border-radius: 50%;
+    background: var(--dune-3);
+    color: var(--ink);
+    border: var(--border-w) solid var(--dune-1);
+  }
+  .method h3 { font-size: 1.3rem; margin-bottom: 0.35rem; }
+
+  /* ---------- Materi ---------- */
+  .materials {
+    list-style: none;
+    padding: 0;
+    margin-top: 2rem;
+    display: grid;
+    gap: 0;
+    border-top: var(--border-w) solid var(--ink);
+  }
+  @media (min-width: 48em) {
+    .materials { grid-template-columns: repeat(2, 1fr); column-gap: 3rem; }
+  }
+  @media (min-width: 70em) {
+    .materials { grid-template-columns: repeat(3, 1fr); }
+  }
+  .materials li {
+    padding-block: 1.25rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .materials h3 { font-size: 1.4rem; }
+  .materials p { color: var(--ink-soft); margin-top: 0.25rem; }
+
+  /* ---------- Tanya jawab ---------- */
+  .faq {
+    margin-top: 2rem;
+    border-top: var(--border-w) solid var(--ink);
+  }
+  details { border-bottom: 1px solid var(--line); }
+  summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    min-height: 3.5rem;
+    padding-block: 1rem;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 650;
+    line-height: 1.35;
+    cursor: pointer;
+    list-style: none;
+  }
+  summary > span:first-child { min-width: 0; overflow-wrap: break-word; }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover span:first-child { text-decoration: underline; text-decoration-color: var(--link-line); text-underline-offset: 0.2em; }
+  .faq__sign {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    border: var(--border-w) solid var(--ink);
+    transition: transform 0.2s ease;
+  }
+  details[open] .faq__sign { transform: rotate(45deg); }
+  details p {
+    padding-bottom: 1.5rem;
+    max-width: var(--measure);
+    font-size: 1.1rem;
+  }
+  .faq__more { margin-top: 2rem; font-size: 1.1rem; }
+
+  /* ---------- Pendaftaran (senja berganti malam) ---------- */
+  .register {
+    position: relative;
+    overflow: hidden;
+    background: var(--night);
+    color: var(--on-night);
+    padding-block: clamp(5rem, 9vw, 7.5rem) clamp(3.5rem, 7vw, 5.5rem);
+    --link-line: var(--night-accent);
+    --focus: var(--on-night);
+    --focus-halo: var(--night);
+  }
+  .register__sun {
+    position: absolute;
+    top: -9rem;
+    right: max(var(--gutter), 8vw);
+    width: 14rem;
+    height: 14rem;
+    border-radius: 50%;
+    background: var(--sun);
+    box-shadow: 0 0 0 1.25rem color-mix(in srgb, var(--sun) 35%, transparent);
+  }
+  :global(html[data-color='kontras']) .register__sun,
+  :global(html[data-color='abu']) .register__sun { background: var(--night-accent); }
+  .register__grid {
+    position: relative;
+    display: grid;
+    gap: 3rem;
+  }
+  @media (min-width: 62em) {
+    .register__grid { grid-template-columns: 1.4fr 1fr; align-items: end; gap: 4rem; }
+  }
+  .register h2 { font-size: clamp(2rem, 1.2rem + 2.4vw, 3rem); max-width: 16em; }
+  .register__lead { margin-top: 1rem; font-size: 1.15rem; max-width: 36em; color: var(--night-soft); }
+  .register__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 2rem;
+  }
+  .register__status { margin-top: 1rem; color: var(--night-soft); min-height: 1lh; }
+
+  .contact {
+    font-style: normal;
+    padding: 1.5rem;
+    border: var(--border-w) solid color-mix(in srgb, var(--on-night) 35%, transparent);
+    border-radius: var(--radius-lg);
+  }
+  .contact h3 { font-size: 1.35rem; margin-bottom: 1rem; }
+  .contact ul { list-style: none; padding: 0; display: grid; gap: 1.25rem; }
+  .contact li { display: flex; gap: 0.9rem; align-items: flex-start; }
+  .contact li > :global(svg) { margin-top: 0.2rem; color: var(--night-accent); }
+  .contact__label { display: block; font-size: 0.95rem; color: var(--night-soft); }
+  .contact a {
+    font-size: 1.2rem;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+
+  /* ---------- Kaki halaman ---------- */
+  .footer {
+    background: var(--paper);
+    border-top: 0.5rem solid var(--sun);
+    padding-block: 2.5rem;
+  }
+  .footer__grid {
+    display: grid;
+    gap: 1.75rem;
+  }
+  @media (min-width: 60em) {
+    .footer__grid { grid-template-columns: auto 1fr; align-items: center; column-gap: 4rem; }
+    .footer__copy { grid-column: 1 / -1; }
+  }
+  .footer__brand { display: flex; align-items: center; gap: 1rem; }
+  .footer__brand img { border-radius: var(--radius-sm); flex: none; width: 4.8rem; height: auto; }
+  .footer ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.5rem;
+  }
+  .footer ul a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 3rem;
+  }
+  .footer__copy { color: var(--ink-soft); font-size: 0.95rem; }
+
+  /* ---------- Tombol daftar tetap di layar kecil ---------- */
+  .mobile-cta {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 40;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    background: var(--paper);
+    border-top: var(--border-w) solid var(--line);
+    font-size: min(1rem, 20px);
+  }
+  .mobile-cta .btn { width: 100%; min-height: 3em; padding-inline: 1em; }
+  :global(body) { padding-bottom: 5.5rem; }
+  @media (min-width: 48em) {
+    .mobile-cta { display: none; }
+    :global(body) { padding-bottom: 0; }
+  }
+</style>
